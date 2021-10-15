@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <CreateNoteForm />
+    <Notes />
+    <UpdateModal :note.sync="selectedNote" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Notes from './components/notes/Index';
+import CreateNoteForm from './components/notes/Create';
+import UpdateModal from './components/notes/UpdateModal';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    Notes,
+    CreateNoteForm,
+    UpdateModal,
+  },
+  data() {
+    return {
+      selectedNote: null,
+    };
+  },
+  events: {
+    'note.selected': note => {
+      this.selectedNote = note;
+    },
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style src="./styles/main.scss" lang="scss"></style>
