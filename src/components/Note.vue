@@ -1,12 +1,19 @@
 <template>
-  <div class="note" @click="selectNote(note)">
+  <div @click="selectNote(note)" class="note">
     <EditIcon />
-    <h1 v-if="note.title">
-      {{ note.title }}
-    </h1>
-    <p v-if="note.content">
-      <pre>{{ note.content }}</pre>
-    </p>
+
+    <div v-if="note.title || note.content">
+      <h1 v-if="note.title">
+        {{ note.title }}
+      </h1>
+      <p v-if="note.content">
+        <pre>{{ note.content }}</pre>
+      </p>
+    </div>
+
+    <div v-else class="empty">
+      Empty Note
+    </div>
   </div>
 </template>
 
@@ -34,13 +41,14 @@ export default {
 
 <style lang="scss">
 .note {
+  position: relative;
+  padding: 20px;
   background-color: $white;
   border: 1px solid $light-grey;
   border-radius: 8px;
-  padding: 20px;
   cursor: default;
   transition: $transition;
-  position: relative;
+  overflow-wrap: break-word;
 
   &:hover,
   &:focus {
@@ -67,6 +75,13 @@ export default {
     height: 25px;
     opacity: 0;
     transition: $transition;
+    cursor: pointer;
+  }
+
+  .empty {
+    color: $grey;
+    font-size: $fz-xl;
+    font-family: $ff-product;
   }
 }
 </style>

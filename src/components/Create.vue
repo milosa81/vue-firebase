@@ -1,19 +1,23 @@
 <template>
   <div class="create-form">
-    <div v-if="titleFieldVisible" class="backdrop" @click="hideTitleField" />
-    <form class="create-note" @submit.prevent="createNote()">
+    <div
+      v-if="titleFieldVisible"
+      @click="hideTitleField"
+      class="backdrop"
+    />
+    <form @submit.prevent="createNote()" class="create-note">
       <input
         v-if="titleFieldVisible"
         v-model="title"
+        @focus="showTitleField"
         name="title"
         placeholder="Title"
-        @focus="showTitleField"
       >
       <textarea
         v-model="content"
+        @focus="showTitleField"
         name="content"
         placeholder="Take a note..."
-        @focus="showTitleField"
       />
       <button type="submit">
         <span>&#43;</span>
@@ -76,20 +80,6 @@ export default {
   box-shadow: $shadow;
   z-index: 10;
 
-  input,
-  textarea {
-    width: 100%;
-    display: block;
-  }
-  input {
-    font-family: $ff-product;
-    font-weight: 700;
-    font-size: $fz-md;
-    margin-bottom: 10px;
-  }
-  textarea {
-    resize: none;
-  }
   button {
     @include flex-center;
     position: absolute;

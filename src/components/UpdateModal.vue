@@ -1,40 +1,50 @@
 <template>
-  <Transition name="modal">
-    <div v-if="note" class="modal-backdrop" @click="dismissModal">
-      <div
-        class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalContent"
+  <div
+    v-if="note"
+    @click="dismissModal"
+    class="modal-backdrop"
+  >
+    <div
+      class="modal"
+      role="dialog"
+      aria-labelledby="modalTitle"
+      aria-describedby="modalContent"
+    >
+      <form
+        @submit.prevent="update"
+        @click.stop
+        class="edit-form"
       >
-        <form class="edit-form" @submit.prevent="update" @click.stop>
-          <input
-            id="modalTitle"
-            v-model="mutableNote.title"
-            name="title"
-            placeholder="Title"
+        <input
+          id="modalTitle"
+          v-model="mutableNote.title"
+          name="title"
+          placeholder="Title"
+        >
+
+        <textarea
+          id="modalContent"
+          v-model="mutableNote.content"
+          name="content"
+          placeholder="Take a note..."
+          rows="8"
+        />
+
+        <footer class="modal-footer">
+          <button
+            @click="remove"
+            type="button"
+            class="delete-button"
           >
-
-          <textarea
-            id="modalContent"
-            v-model="mutableNote.content"
-            name="content"
-            placeholder="Take a note..."
-            rows="8"
-          />
-
-          <footer class="modal-footer">
-            <button type="button" class="delete-button" @click="remove">
-              <DeleteIcon />
-            </button>
-            <button type="submit" class="submit-button">
-              <span>Done</span>
-            </button>
-          </footer>
-        </form>
-      </div>
+            <DeleteIcon />
+          </button>
+          <button type="submit" class="submit-button">
+            <span>Done</span>
+          </button>
+        </footer>
+      </form>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <script>
@@ -98,6 +108,9 @@ export default {
 
 <style lang="scss">
 .modal-backdrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
   left: 0;
   top: 0;
@@ -106,32 +119,26 @@ export default {
   background-color: rgba(229, 229, 229, 0.75);
   z-index: 100;
 }
+.modal {
+  @include flex-center;
+  width: 100%;
+  margin: 25px;
+  padding-top: 20vh;
+}
 .edit-form {
   position: relative;
   width: 100%;
   max-width: 600px;
-  margin: 25vh auto 0;
   background: $white;
   padding: 20px 20px 8px;
   border-radius: $radius;
   box-shadow: $shadow;
   transition: $transition;
 
-  input,
-  textarea {
-    width: 100%;
-    display: block;
-  }
   input {
-    font-family: $ff-product;
-    font-weight: 700;
-    font-size: $fz-lg;
     margin-bottom: 20px;
   }
-  textarea {
-    resize: none;
-    line-height: 1.5;
-  }
+
   .modal-footer {
     @include flex-between;
 
@@ -160,20 +167,5 @@ export default {
       }
     }
   }
-}
-
-.modal-enter,
-.modal-leave-active {
-  opacity: 0;
-}
-.modal-enter,
-.modal-leave-to {
-  form {
-    transform: scale(0.75);
-  }
-}
-.modal-enter-active,
-.modal-leave-active {
-  transition: $transition;
 }
 </style>
